@@ -1,31 +1,29 @@
 from django import forms
-from django.core import validators
+from .models import ContactUs
 
 
-class ContactUsForm(forms.Form):
-    full_name = forms.CharField(label='نام و نام خانوادگی', max_length=300, required=True,
-        error_messages={
-            'required' : 'لطفا نام و نام خانوادگی خود را وارد نمایید',
-            'max_length' : 'نام و نام خانوادگی نمیتواند بیش تر از 50 کاراکتر باشد',
-        },
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام و نام خانوداگی' })
-    )
-    email = forms.EmailField(label='ایمیل', widget=forms.EmailInput(
-        attrs={'class': 'form-control', 'placeholder': 'ایمیل'}),
+class ContactUsModelForm(forms.ModelForm):
+    class Meta:
+        model = ContactUs
+        fields = ['full_name', 'email', 'title', 'message']
+        widgets = {
+            'full_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام و نام خانوداگی'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'ایمیل'}),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'موضوع پیام'}),
+            'message': forms.Textarea(attrs={'class': 'form-control', 'id': 'message', 'placeholder': 'پیغام خود را اینجا بنویسید...'}),
+        }
+
         error_messages = {
-        'required': 'لطفا ایمیل خود را وارد نمایید'},
-        # validators=[validators.validate_email ]
-    )
-
-    title = forms.CharField(label='موضوع', widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'موضوع پیام'}),
-                            error_messages={
-            'required': 'لطفا موضوع پیام خود را وارد نمایید'}
-                            )
-
-    message = forms.CharField(label='پیغام شما', widget=forms.Textarea(
-        attrs={ 'class': 'form-control', 'id' : 'message', 'placeholder': 'پیغام خود را اینجا بنویسید...',}),
-                              error_messages={
-            'required': 'لطفا پیام خود را وارد نمایید'}
-                              )
-
+            'full_name': {
+                'required': 'لطفا نام و نام خانوادگی خود را وارد نمایید',
+            },
+            'email': {
+                'required': 'لطفا ایمیل خود را وارد نمایید'
+            },
+            'title': {
+                'required': 'لطفا موضوع پیام خود را وارد نمایید'
+            },
+            'message': {
+                'required': 'لطفا پیام خود را وارد نمایید'
+            }
+        }
