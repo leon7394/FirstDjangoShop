@@ -1,61 +1,91 @@
 {% extends 'shared/_layout.html' %}
 
 {% block title %}
-	تماس با ما
+    تماس با ما
 {% endblock %}
 
 
 {% block content %}
 
     <div id="contact-page" class="container">
-    	<div class="bg">
-	    	<div class="row">
-				<div class="container">
-	    			<div class="col-sm-12" style="overflow: hidden; margin-bottom: 40px">
-						<h2 class="title text-center">تمـاس با مـا</h2>
-					</div>
-				</div>
-				</div>
-    		<div class="row">
-	    		<div class="col-sm-8">
-	    			<div class="contact-form">
-	    				<h2 class="title text-center">با ما در ارتباط باشیـد</h2>
-	    				<div class="status alert alert-success" style="display: none"></div>
-				    	<form id="main-contact-form" class="contact-form row" name="contact-form" method="post" action="{% url 'contact_us_page'  %} ">
+        <div class="bg">
+            <div class="row">
+                <div class="container">
+                    <div class="col-sm-12" style="overflow: hidden; margin-bottom: 40px">
+                        <h2 class="title text-center">تمـاس با مـا</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="contact-form">
+                        <h2 class="title text-center">با ما در ارتباط باشیـد</h2>
+                        <div class="status alert alert-success" style="display: none"></div>
+
+                        <form id="main-contact-form" class="contact-form row" name="contact-form" method="post"
+                              novalidate action="{% url 'contact_us_page' %} ">
                             {% csrf_token %}
-                            {{ contact_form }}
-{#				            <div class="form-group col-md-6">#}
-{#				                <input type="text" name="name" class="form-control" required="required" placeholder="نام">#}
-{#				            </div>#}
-{#				            <div class="form-group col-md-6">#}
-{#				                <input type="email" name="email" class="form-control" required="required" placeholder="ایمیـل">#}
-{#				            </div>#}
-{#				            <div class="form-group col-md-12">#}
-{#				                <input type="text" name="subject" class="form-control" required="required" placeholder="موضـوع">#}
-{#				            </div>#}
-{#				            <div class="form-group col-md-12">#}
-{#				                <textarea name="message" id="message" required class="form-control" rows="8" placeholder="پیغـام شمـا"></textarea>#}
-{#				            </div>#}
-				            <div class="form-group col-md-12">
-                                <button type="submit" class="btn btn-primary pull-right" >ارسال</button>
-				            </div>
-				        </form>
-	    			</div>
-	    		</div>
-	    		<div class="col-sm-4">
-	    			<div class="contact-info">
-	    				<h2 class="title text-center">اطلاعات تماس</h2>
-	    				<address>
-	    					<p>گـروه تکنوگـرافی 1614</p>
-							<p>ایـران - آذربایجـان غربـی - خـوی</p>
-							<p>مجتـمع تجـاری تفریحـی شمس - طبـقه 2 - پلاک 54</p>
-							<p>تلفن تماس : 80 21 24 36 044</p>
-							<p>فکس : 80 21 24 36 044</p>
-							<p style="font-family: tahoma;">ایمیـل : info@1614GP.ir</p>
-	    				</address>
-	    				<div class="social-networks">
-	    					<h2 class="title text-center">شبکـه های اجتـماعی</h2>
-							<span  class="socials-share share">
+
+                            <div class="form-group col-md-6 {% if contact_form.email.errors %} text-danger {% endif %} ">
+                                {{ contact_form.email.label_tag }}
+                                {{ contact_form.email }}
+                                {{ contact_form.email.errors }}
+                            </div>
+
+                            <div class="form-group col-md-6 {% if contact_form.full_name.errors %} text-danger {% endif %} ">
+                                {{ contact_form.full_name.label_tag }}
+                                {{ contact_form.full_name }}
+                                {{ contact_form.full_name.errors }}
+                            </div>
+
+
+                            <div class="form-group col-md-12 {% if contact_form.title.errors %} text-danger {% endif %} ">
+                                {{ contact_form.title.label_tag }}
+                                {{ contact_form.title }}
+                                {{ contact_form.title.errors }}
+                            </div>
+
+
+                            <div class="form-group col-md-12 {% if contact_form.message.errors %} text-danger {% endif %} ">
+                                {{ contact_form.message.label_tag }}
+                                {{ contact_form.message }}
+                                {{ contact_form.message.errors }}
+                            </div>
+
+
+                            {#                            {{ contact_form }}#}
+                            {#				            <div class="form-group col-md-6">#}
+                            {#				                <input type="text" name="name" class="form-control" required="required" placeholder="نام">#}
+                            {#				            </div>#}
+                            {#				            <div class="form-group col-md-6">#}
+                            {#				                <input type="email" name="email" class="form-control" required="required" placeholder="ایمیـل">#}
+                            {#				            </div>#}
+                            {#				            <div class="form-group col-md-12">#}
+                            {#				                <input type="text" name="subject" class="form-control" required="required" placeholder="موضـوع">#}
+                            {#				            </div>#}
+                            {#				            <div class="form-group col-md-12">#}
+                            {#				                <textarea name="message" id="message" required class="form-control" rows="8" placeholder="پیغـام شمـا"></textarea>#}
+                            {#				            </div>#}
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary pull-right">ارسال</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="contact-info">
+                        <h2 class="title text-center">اطلاعات تماس</h2>
+                        <address>
+                            <p>گـروه تکنوگـرافی 1614</p>
+                            <p>ایـران - آذربایجـان غربـی - خـوی</p>
+                            <p>مجتـمع تجـاری تفریحـی شمس - طبـقه 2 - پلاک 54</p>
+                            <p>تلفن تماس : 80 21 24 36 044</p>
+                            <p>فکس : 80 21 24 36 044</p>
+                            <p style="font-family: tahoma;">ایمیـل : info@1614GP.ir</p>
+                        </address>
+                        <div class="social-networks">
+                            <h2 class="title text-center">شبکـه های اجتـماعی</h2>
+                            <span class="socials-share share">
 									<ul>
 										<a href="#">
 											<li>
@@ -77,11 +107,11 @@
 										</a>
 									</ul>
 								</span>
-	    				</div>
-	    			</div>
-    			</div>
-	    	</div>
-    	</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div><!--/#contact-page-->
 
 {% endblock %}
