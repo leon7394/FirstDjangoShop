@@ -1,11 +1,18 @@
 from django.shortcuts import render
+from django.utils.translation.template import context_re
+from django.views import View
+from django.views.generic import TemplateView
 
-# Create your views here.
-def index_page(request):
-    return render(request, 'home_module/index_page.html')
 
-def contact_page(request):
-    return render(request, 'home_module/../contact_module/templates/contact_module/contact_page.html')
+
+class HomeView(TemplateView):
+    template_name = 'home_module/index_page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'This is My first Django Shop! '
+        return context
+
 
 def site_header_component(request):
     content = {
