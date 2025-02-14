@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.views import View
 from .forms import ContactUsModelForm
 from .models import ContactUs
-
 
 def contact_us_page(request):
     if request.method == "POST":
