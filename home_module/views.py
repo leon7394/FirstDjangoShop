@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.utils.translation.template import context_re
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic.base import TemplateView
 
 
 
@@ -16,7 +16,7 @@ class HomeView(TemplateView):
 
 def site_header_component(request):
     content = {
-        'link' : 'آموزش جنگو'
+        'link' : 'پنل ادمین'
     }
     return render(request, 'shared/site_header_component.html', content)
 
