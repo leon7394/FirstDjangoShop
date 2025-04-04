@@ -27,3 +27,7 @@ class ContactUsModelForm(forms.ModelForm):
                 'required': 'لطفا پیام خود را وارد نمایید'
             }
         }
+
+
+class ProfileForm(forms.Form):
+    user_image = forms.FileField()
