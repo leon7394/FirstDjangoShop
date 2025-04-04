@@ -1,6 +1,5 @@
-from django.shortcuts import render, redirect
-from django.views.generic import CreateView, View
-from .forms import ContactUsModelForm, ProfileForm
+from django.views.generic import CreateView, ListView
+from .forms import ContactUsModelForm
 from .models import UserProfile
 
 
@@ -8,7 +7,6 @@ class ContactUsView(CreateView):
     template_name = 'contact_module/contact_page.html'
     form_class = ContactUsModelForm
     success_url = '/'
-
     # def get_success_url(self):
     #     return reverse('home_page')
 
@@ -18,18 +16,14 @@ class ContactUsView(CreateView):
 
 
 
-class CreateProfileView(View):
-    @staticmethod
-    def get(request):
-        form = ProfileForm()
-        return render(request, 'contact_module/create_profile_page.html', {'form': form})
+class CreateProfileView(CreateView):
+    template_name = 'contact_module/create_profile_page.html'
+    model = UserProfile
+    fields = '__all__'
+    success_url = '/create-profile/'
 
-    @staticmethod
-    def post(request):
-        submitted_form = ProfileForm(request.POST, request.FILES)
-        if submitted_form.is_valid():
-            profile = UserProfile(image=request.FILES['user_image'])
-            profile.save()
-            return redirect('/create-profile')
-        else:
-            return render(request, 'contact_module/create_profile_page.html', {'form': submitted_form})
+
+class ProfilesView(ListView):
+    template_name = 'contact_module/profiles_list_page.html'
+    model = UserProfile
+    context_object_name = 'profiles'
