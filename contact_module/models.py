@@ -40,3 +40,10 @@ class ContactUs(models.Model):
 
 class UserProfile(models.Model):
     image = models.ImageField(upload_to='images')
+
+    class Meta:
+        verbose_name = 'عکس پروفایل'
+        verbose_name_plural = 'عکس های پروفایل'
+
+    def __str__(self):
+        return f'کاربر شماره {self.id}'
