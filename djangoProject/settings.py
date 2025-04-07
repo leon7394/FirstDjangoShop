@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'product_module',
     'home_module',
     'contact_module',
-    'django_render_partial'
+    'django_render_partial',
 ]
 
 MIDDLEWARE = [

@@ -3,13 +3,15 @@
 								<div class="single-products">
 									<div class="productinfo text-center">
 										<img src="/static/images/samsung-galaxy-s20.jpeg" alt="">
-										<h2>{{ product.price }} تومان</h2>
+{#										<h2>{{ product.price }} تومان</h2>#}
+										<h2>قیمت : {{ product.price_formatted }} تومان</h2>
+
 										<p> {{ product.title }} </p>
 										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
 									</div>
 									<div class="product-overlay">
 										<div class="overlay-content">
-											<h2>{{ product.price }} تومان</h2>
+											<h2>قیمت : {{ product.price_formatted }} تومان</h2>
 											<p> {{ product.title }} </p>
 											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
 										</div>
