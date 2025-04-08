@@ -1,0 +1,1 @@
+default_app_config = 'contact_module.apps.ProductModuleConfig'
