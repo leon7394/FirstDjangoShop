@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from django.template.context_processors import request
 from django.views.generic import ListView, DetailView, View
 from .models import Product
 
@@ -29,6 +30,10 @@ class ProductDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        loaded_product = self.object
+        request = self.request
+        favorite_product_id = request.session.get('product_favorite')
+        context['is_favorite'] = favorite_product_id == loaded_product.id
         product = context['product']
         context['price_formatted'] = "{:,}".format(product.price).replace(",", "٬")
         return context
