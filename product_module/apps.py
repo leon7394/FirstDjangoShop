@@ -6,3 +6,6 @@ class ProductModuleConfig(AppConfig):
     name = 'product_module'
     verbose_name = 'ماژول محصولات'
 
+    def ready(self):
+        import product_module.signals
+
