@@ -39,6 +39,8 @@ class Product(models.Model):
 
     category = models.ManyToManyField(ProductCategory, related_name='product_categories', verbose_name='دسته بندی ها')
 
+    image = models.ImageField(upload_to='images/products', null=True, blank=True, verbose_name='تصویر محصول')
+
     price = models.IntegerField(default=0, verbose_name='قیمت')
 
     short_description = models.CharField(max_length=360, null=True, db_index=True, verbose_name='توضیحات کوتاه')
