@@ -31,7 +31,7 @@ class ProductDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         loaded_product = self.object
         request = self.request
-        favorite_product_id = request.session.get('product_favorite')
+        favorite_product_id = request.session.get('favorite_product_id')
         context['is_favorite'] = favorite_product_id == loaded_product.id
         product = context['product']
         context['price_formatted'] = "{:,}".format(product.price)
