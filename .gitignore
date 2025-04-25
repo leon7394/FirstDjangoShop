@@ -4,3 +4,4 @@ db.sqlite3
 uploads/images/*
 !uploads/images/.gitkeep
 *.pyc
+__pycache__/
