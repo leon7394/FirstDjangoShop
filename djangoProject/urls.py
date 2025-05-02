@@ -6,6 +6,7 @@ import contact_module
 
 urlpatterns = [
     path('', include('home_module.urls') ),
+    path('', include('account_module.urls') ),
     path('contact-us/', include('contact_module.urls') ),
     path('create-profile/', contact_module.views.CreateProfileView.as_view(), name='create_profile_page'),
     path('profiles/', contact_module.views.ProfilesView.as_view(), name='profiles_page'),

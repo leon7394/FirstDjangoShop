@@ -2,8 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class User(AbstractUser):
-    mobile = models.CharField(max_length=20, unique=True, verbose_name='تلفن همراه')
-    email_active_code = models.CharField(max_length=100, verbose_name='کد فعال سازی ایمیل')
+    avatar = models.CharField(max_length=20, unique=True, verbose_name='تصویر پروفایل', null=True, blank=True)
+    email_active_code = models.CharField(max_length=100, unique=True, verbose_name = 'کد فعال سازی ایمیل')
 
     class Meta:
         verbose_name = 'کاربر'
