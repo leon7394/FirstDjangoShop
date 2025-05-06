@@ -18,6 +18,20 @@
 	font-style: normal;
 }
 
+.slider-image {
+    max-width: 100%;
+    max-height: 400px; /* ارتفاع دلخواه، مثلاً 400 پیکسل */
+    object-fit: cover; /* طوری تصویر رو کراپ می‌کنه که خوب توی کادر جا بگیره */
+    border-radius: 10px;
+}
+
+.carousel-inner .item {
+
+    min-height: 400px; /* یا هر ارتفاعی که می‌خوای */
+    background: white;
+    overflow: hidden;
+}
+
 
 body {
   font-family: 'BYekan';
