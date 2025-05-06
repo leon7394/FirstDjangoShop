@@ -1,4 +1,5 @@
 from django.views.generic import CreateView, ListView
+from site_module.models import SiteSetting
 from .forms import ContactUsModelForm
 from .models import UserProfile
 
@@ -7,12 +8,12 @@ class ContactUsView(CreateView):
     template_name = 'contact_module/contact_page.html'
     form_class = ContactUsModelForm
     success_url = '/'
-    # def get_success_url(self):
-    #     return reverse('home_page')
 
-    # def form_valid(self, form):
-    #     form.save()
-    #     return super().form_valid(form)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        setting = SiteSetting.objects.filter(is_main_setting=True).first()
+        context['site_setting'] = setting
+        return context
 
 
 
