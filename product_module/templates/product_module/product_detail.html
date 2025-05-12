@@ -1,5 +1,5 @@
 {% extends 'shared/_layout.html' %}
-
+{% load thumbnail %}
 
 {% block title %}
     {{ product.title }}
@@ -22,7 +22,10 @@
                         <div class="col-sm-5">
                             <div class="view-product">
                                 {% if product.image %}
-                                    <img src=" {{ product.image.url }} " alt="">
+                                    {% thumbnail product.image "330x380" crop='center' as im %}
+                                        <img src="{{ im.url }}">
+                                    {% endthumbnail %}
+{#                                    <img src=" {{ product.image.url }} " alt="">#}
                                 {% else %}
                                     <img src="/static/images/product-details/1.jpg" alt="">
                                 {% endif %}

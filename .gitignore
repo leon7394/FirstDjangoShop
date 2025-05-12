@@ -5,3 +5,4 @@ uploads/images/*
 !uploads/images/.gitkeep
 *.pyc
 __pycache__/
+/site_module/migrations/
