@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from article_module.models import Article
 
 
+
 # class ArticlesView(View):
 #     def get(self, request):
 #         articles = Article.objects.filter(is_active=True)
