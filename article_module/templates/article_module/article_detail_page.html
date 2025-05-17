@@ -1,5 +1,6 @@
 {% extends 'shared/_layout.html' %}
 {% load render_partial %}
+{% load thumbnail %}
 
 {% block title %}
     {{ article.title }}
@@ -47,11 +48,17 @@
 
 					<div class="media commnets">
 						<a class="pull-right" href="#">
-							<img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
+                            {% if article.author and article.author.avatar %}
+                                {% thumbnail article.author.avatar "121x86" as im %}
+                                    <img class="media-object" src="{{ im.url }}">
+                                {% endthumbnail %}
+                            {% else %}
+                                <img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
+                            {% endif %}
 						</a>
 						<div class="media-body">
-							<h4 class="media-heading">نویسنده 1</h4>
-							<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده ازلورملورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.</p>
+                            <h4 class="media-heading">نویسنده: {{ article.author.get_full_name }}</h4>
+                            <p>{{ article.author.about_user }}</p>
 							<div class="blog-socials">
 								<ul>
 									<li><a href=""><i class="fa fa-facebook"></i></a></li>
