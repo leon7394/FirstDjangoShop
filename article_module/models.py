@@ -52,3 +52,6 @@ class ArticleComment(models.Model):
     class Meta:
         verbose_name = 'نظر'
         verbose_name_plural = 'نظرات'
+
+    def __str__(self):
+        return self.text
