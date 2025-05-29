@@ -12,5 +12,6 @@ urlpatterns = [
     path('create-profile/', contact_module.views.CreateProfileView.as_view(), name='create_profile_page'),
     path('profiles/', contact_module.views.ProfilesView.as_view(), name='profiles_page'),
     path('admin/', admin.site.urls, name='admin'),
-    path('products/', include("product_module.urls"))
+    path('products/', include("product_module.urls")),
+    path('user/', include('user_panel_module.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
