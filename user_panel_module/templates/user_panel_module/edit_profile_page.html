@@ -6,11 +6,23 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            {% render_partial 'user_panel_module.views.user_panel_menu_component' %}
+
+            <div class="col-md-4">
+                {% if current_user.avatar %}
+                    <img src="{{ current_user.avatar.url }}" alt="Avatar" class="img-fluid rounded-circle" style="margin-bottom: 20px; width: 190px; height: 190px; border-radius: 50%; object-fit: cover; object-position: center;">
+                {% else %}
+                    <img src="/static/images/home/product.jpg" alt="Avatar" class="img-fluid rounded-circle" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; object-position: center;">
+                {% endif %}
+
+                {% render_partial 'user_panel_module.views.user_panel_menu_component' %}
+
+            </div>
+
             <div class="col-md-8">
-                <form action="{% url 'edit_profile_page' %}" method="post">
+                <form action="{% url 'edit_profile_page' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form }}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success">ذخیره تغییرات</button>
                 </form>
             </div>
         </div>

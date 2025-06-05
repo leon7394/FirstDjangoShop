@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView
+from account_module.models import User
 from user_panel_module.forms import EditProfileModelForm
+
+
 
 
 class UserPanelDashboardPage(TemplateView):
@@ -13,16 +16,41 @@ class UserPanelDashboardPage(TemplateView):
             return redirect(reverse('login_page'))
         return super().dispatch(request, *args, **kwargs)
 
+
+
+
+
 class EditUserProfilePage(View):
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(reverse('login_page'))
+        return super().dispatch(request, *args, **kwargs)
+
     def get(self, request):
-        edit_form = EditProfileModelForm()
+        current_user = User.objects.filter(id=request.user.id).first()
+        edit_form = EditProfileModelForm(instance=current_user)
         context = {
-            'form' : edit_form
+            'form' : edit_form,
+            'current_user' : current_user
         }
         return render(request, 'user_panel_module/edit_profile_page.html', context)
 
     def post(self, request):
-        return render(request, 'user_panel_module/edit_profile_page.html', {})
+        current_user = User.objects.filter(id=request.user.id).first()
+        edit_form = EditProfileModelForm(request.POST, request.FILES, instance=current_user)
+        if edit_form.is_valid():
+            edit_form.save(commit=True)
+
+        context = {
+            'form' : edit_form,
+            'current_user' : current_user,
+        }
+        return render(request, 'user_panel_module/edit_profile_page.html', context)
+
+
+
+
 
 
 def user_panel_menu_component(request):
