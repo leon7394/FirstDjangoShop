@@ -35,7 +35,7 @@ class ArticleDetailView(DetailView):
         return context
 
 def article_categories_component(request):
-    article_main_categories = ArticleCategory.objects.filter(is_active=True, parent_id=None)
+    article_main_categories = ArticleCategory.objects.prefetch_related('articlecategory_set').filter(is_active=True, parent_id=None)
     return render(request, 'article_module/components/article_categories_component.html', {'main_categories': article_main_categories})
 
 

@@ -1,6 +1,6 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, View
-from .models import Product
+from .models import Product, ProductCategory
 
 
 class ProductListView(ListView):
@@ -11,8 +11,11 @@ class ProductListView(ListView):
     paginate_by = 3
 
     def get_queryset(self):
-        base_query = super().get_queryset()
-        return base_query.filter(is_active=True, is_delete=False)
+        query = super().get_queryset()
+        category_name = self.kwargs.get('cat')
+        if category_name:
+            query = query.filter(category__url_title__iexact=category_name, is_active=True, is_delete=False)
+        return query
 
 
     def get_context_data(self, **kwargs):
@@ -20,7 +23,6 @@ class ProductListView(ListView):
         products = context['products']
         for product in products:
             product.price_formatted = "{:,}".format(product.price)
-
         return context
 
 
@@ -40,6 +42,7 @@ class ProductDetailView(DetailView):
         return context
 
 
+
 class AddProductFavorite(View):
     def post(self, request):
         product_id = int(request.POST['product_id'])
@@ -49,3 +52,9 @@ class AddProductFavorite(View):
 
 
 
+def product_categories_component(request):
+    product_categories = ProductCategory.objects.filter(is_active=True, is_delete=False)
+    context = {
+        'categories': product_categories,
+    }
+    return render(request, 'product_module/components/product_categories_component.html', context)
