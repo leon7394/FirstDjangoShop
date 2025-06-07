@@ -1,6 +1,7 @@
+from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, View
-from .models import Product, ProductCategory
+from .models import Product, ProductCategory, ProductBrand
 
 
 class ProductListView(ListView):
@@ -8,13 +9,19 @@ class ProductListView(ListView):
     model = Product
     context_object_name = 'products'
     ordering = ['-price']
-    paginate_by = 3
+    paginate_by = 6
 
     def get_queryset(self):
         query = super().get_queryset()
         category_name = self.kwargs.get('cat')
+        brand_name = self.kwargs.get('brand')
+
+        if brand_name:
+            query = query.filter(brand__url_title__iexact=brand_name, is_active=True, is_delete=False)
+
         if category_name:
             query = query.filter(category__url_title__iexact=category_name, is_active=True, is_delete=False)
+
         return query
 
 
@@ -58,3 +65,12 @@ def product_categories_component(request):
         'categories': product_categories,
     }
     return render(request, 'product_module/components/product_categories_component.html', context)
+
+
+
+def product_brand_component(request):
+    product_brands = ProductBrand.objects.filter(is_active=True).annotate(products_count=Count('product'))
+    context = {
+        'brands' : product_brands,
+    }
+    return render(request, 'product_module/components/product_brand_component.html', context)

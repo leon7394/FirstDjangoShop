@@ -907,6 +907,7 @@ h2.title:before{
   padding-left: 0;
 }
 
+
 .features_items{
 	overflow:hidden;
 }
@@ -2751,4 +2752,22 @@ h2.title {
   color: #FE980F;
 }
 
+
+.view-product img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.view-product {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+
+.product-detail-row {
+    display: flex;
+    align-items: flex-start;
+}
 
