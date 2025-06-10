@@ -1,5 +1,8 @@
 {% extends 'shared/_layout.html' %}
 {% load render_partial %}
+{% load jalali_tags %}
+
+
 
 {% block title %}داشبورد{% endblock %}
 
@@ -19,7 +22,10 @@
             </div>
 
             <div class="col-md-8">
-                <p>This is User Dashboard</p>
+                <p>{{ current_user.get_full_name }}</p>
+                <p>{{ current_user.email }}</p>
+                <p>تاریخ پیوستن: {{ current_user.date_joined|to_jalali_fa  }}</p>
+                <p>{{ current_user.about_user }}</p>
             </div>
         </div>
     </div>

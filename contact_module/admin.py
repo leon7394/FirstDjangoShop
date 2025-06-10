@@ -16,4 +16,4 @@ class ContactFunction(admin.ModelAdmin):
 
 
 admin.site.register(models.ContactUs, ContactFunction)
-admin.site.register(models.UserProfile)
+# admin.site.register(models.UserProfile)

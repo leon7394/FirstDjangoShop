@@ -18,3 +18,8 @@ ul{
     object-fit: cover;
     object-position: center;
 }
+
+.cursor-pointer{
+    cursor : pointer;
+}
+

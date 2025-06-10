@@ -11,10 +11,21 @@ class ProductListView(ListView):
     ordering = ['-price']
     paginate_by = 6
 
+
+
     def get_queryset(self):
         query = super().get_queryset()
         category_name = self.kwargs.get('cat')
         brand_name = self.kwargs.get('brand')
+        my_request = self.request
+        start_price = my_request.GET.get('start_price')
+        end_price = my_request.GET.get('end_price')
+
+        if start_price:
+            query = query.filter(price__gte=start_price)
+
+        if end_price:
+            query = query.filter(price__lte=end_price)
 
         if brand_name:
             query = query.filter(brand__url_title__iexact=brand_name, is_active=True, is_delete=False)
@@ -27,6 +38,12 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        query = Product.objects.all()
+        product = query.order_by('-price').first()
+        db_max_price = product.price if product is not None else 100000000
+        context['db_max_price'] = db_max_price
+        context['start_price'] = self.request.GET.get('start_price') or 0
+        context['end_price'] = self.request.GET.get('end_price') or db_max_price
         products = context['products']
         for product in products:
             product.price_formatted = "{:,}".format(product.price)
