@@ -1,9 +1,9 @@
 from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, View
-
 from site_module.models import SiteBanner
 from .models import Product, ProductCategory, ProductBrand
+
 
 
 class ProductListView(ListView):
@@ -12,7 +12,6 @@ class ProductListView(ListView):
     context_object_name = 'products'
     ordering = ['-price']
     paginate_by = 6
-
 
 
     def get_queryset(self):
@@ -50,6 +49,7 @@ class ProductListView(ListView):
         products = context['products']
         for product in products:
             product.price_formatted = "{:,}".format(product.price)
+
         return context
 
 
