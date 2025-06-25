@@ -2,8 +2,8 @@ from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, View
 from site_module.models import SiteBanner
-from .models import Product, ProductCategory, ProductBrand
-
+from utils.http_service import get_client_ip
+from .models import Product, ProductCategory, ProductBrand, ProductVisit
 
 
 class ProductListView(ListView):
@@ -67,6 +67,16 @@ class ProductDetailView(DetailView):
         product = context['product']
         context['price_formatted'] = "{:,}".format(product.price)
         context['banners'] = SiteBanner.objects.filter(is_active=True, position__iexact=SiteBanner.SiteBannerPositions.product_detail)
+        user_ip = get_client_ip(self.request)
+        user_id = None
+        if self.request.user.is_authenticated:
+            user_id = self.request.user.id
+
+        has_been_visited = ProductVisit.objects.filter(ip__iexact=user_ip, product_id=loaded_product.id).exists()
+        if not has_been_visited:
+            new_visit = ProductVisit(product=loaded_product, ip=user_ip, user_id=user_id)
+            new_visit.save()
+
         return context
 
 
