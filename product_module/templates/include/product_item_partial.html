@@ -1,19 +1,20 @@
 {% load thumbnail %}
+{% load poll_extras %}
 
 
-<div class="col-sm-4">
+<div class="col-sm-{{ col_size }}">
     <div class="product-image-wrapper">
         <div class="single-products">
             <div class="productinfo text-center">
                 {% if product.image %}
-                    {% thumbnail product.image "268x250" crop='center' as im %}
+                    {% thumbnail product.image "268x250" as im %}
                         <img src="{{ im.url }}">
                     {% endthumbnail %}
                     {#<img src="{{ product.image.url }}" alt="">#}
                 {% else %}
                     <img src="/static/images/home/product.jpg" alt="">
                 {% endif %}
-                <h2>قیمت : {{ product.price_formatted }} تومان</h2>
+                <h2>قیمت : {{ product.price| three_digits_currency}} تومان</h2>
 
                 <p> {{ product.title }} </p>
                 <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'site_module',
     'article_module',
     'user_panel_module',
+    'polls',
     #external apps
     'jalali_date',
     'sorl.thumbnail',

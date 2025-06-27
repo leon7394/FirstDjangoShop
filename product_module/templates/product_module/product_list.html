@@ -4,6 +4,7 @@
 
 
 
+
 {% block title %}لیست محصولات{% endblock %}
 
 {% block content %}
@@ -15,7 +16,7 @@
                         <div class="features_items"><!--features_items-->
                             <h2 class="title text-center">محصولات</h2>
                         {% for product in products %}
-                            {% include 'include/product_item_partial.html' with product=product %}
+                            {% include 'include/product_item_partial.html' with product=product col_size=4%}
                         {% endfor %}
                             <div class="clearfix"></div>
                             <ul class="pagination">
