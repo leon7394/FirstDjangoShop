@@ -2,8 +2,9 @@ from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, View
 from site_module.models import SiteBanner
+from utils.convertors import group_list
 from utils.http_service import get_client_ip
-from .models import Product, ProductCategory, ProductBrand, ProductVisit
+from .models import Product, ProductCategory, ProductBrand, ProductVisit, ProductGallery
 
 
 class ProductListView(ListView):
@@ -47,8 +48,6 @@ class ProductListView(ListView):
         context['end_price'] = self.request.GET.get('end_price') or db_max_price
         context['banners'] = SiteBanner.objects.filter(is_active=True, position__iexact=SiteBanner.SiteBannerPositions.product_list)
         products = context['products']
-        for product in products:
-            product.price_formatted = "{:,}".format(product.price)
 
         return context
 
@@ -65,8 +64,8 @@ class ProductDetailView(DetailView):
         favorite_product_id = request.session.get('favorite_product_id')
         context['is_favorite'] = favorite_product_id == loaded_product.id
         product = context['product']
-        context['price_formatted'] = "{:,}".format(product.price)
         context['banners'] = SiteBanner.objects.filter(is_active=True, position__iexact=SiteBanner.SiteBannerPositions.product_detail)
+        context['product_galleries_group'] = group_list(list(ProductGallery.objects.filter(product_id=loaded_product.id).all()),3)
         user_ip = get_client_ip(self.request)
         user_id = None
         if self.request.user.is_authenticated:

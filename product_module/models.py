@@ -18,6 +18,7 @@ class ProductCategory(models.Model):
         verbose_name_plural = 'دسته بندی ها'
 
 
+
 class ProductBrand(models.Model):
     title = models.CharField(max_length=300, verbose_name='نام برند', db_index=True)
     url_title = models.CharField(max_length=300, verbose_name='نام در url', db_index=True)
@@ -86,6 +87,7 @@ class ProductTag(models.Model):
         verbose_name_plural = 'تگ های محصولات'
 
 
+
 class ProductVisit(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='product_visits',
                                 verbose_name='محصول')
@@ -98,3 +100,16 @@ class ProductVisit(models.Model):
     class Meta:
         verbose_name = 'بازدید محصول'
         verbose_name_plural = 'بازدید های محصول'
+
+
+
+class ProductGallery(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='محصول')
+    image = models.ImageField(upload_to='images/product-gallery', verbose_name='تصویر')
+
+    def __str__(self):
+        return self.product.title
+
+    class Meta:
+        verbose_name = 'تصویر گالری'
+        verbose_name_plural = 'گالری تصاویر'
