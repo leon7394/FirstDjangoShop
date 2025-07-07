@@ -65,7 +65,9 @@ class ProductDetailView(DetailView):
         context['is_favorite'] = favorite_product_id == loaded_product.id
         product = context['product']
         context['banners'] = SiteBanner.objects.filter(is_active=True, position__iexact=SiteBanner.SiteBannerPositions.product_detail)
-        context['product_galleries_group'] = group_list(list(ProductGallery.objects.filter(product_id=loaded_product.id).all()),3)
+        galeries = list(ProductGallery.objects.filter(product_id=loaded_product.id).all())
+        galeries.insert(0, loaded_product)
+        context['product_galleries_group'] = group_list(galeries,3)
         user_ip = get_client_ip(self.request)
         user_id = None
         if self.request.user.is_authenticated:
