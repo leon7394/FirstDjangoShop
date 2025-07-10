@@ -17,7 +17,7 @@ class Order(models.Model):
 
 
 class OrderDetail(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name='سبد خرید')
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_details', verbose_name='سبد خرید')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
     final_price = models.IntegerField(null=True, blank=True, verbose_name='قیمت واحد نهایی محصول')
     count = models.IntegerField(verbose_name='تعداد')
