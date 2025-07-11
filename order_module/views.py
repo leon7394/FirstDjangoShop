@@ -5,8 +5,15 @@ from product_module.models import Product
 
 
 def add_product_to_order(request):
-    product_id = request.GET.get('product_id')
+    product_id = int(request.GET.get('product_id'))
     count = int(request.GET.get('count',1))
+    if count < 1:
+        return JsonResponse({
+            'status': 'INVALID_COUNT',
+            'text' : 'مقدار وارد شده معتبر نمیباشد',
+            'confirm_button_text' : 'باشه ، مشتکرم' ,
+            'icon' : 'warning',
+        })
 
     if request.user.is_authenticated:
         product = Product.objects.filter(id=product_id, is_active=True, is_delete=False).first()
@@ -22,14 +29,23 @@ def add_product_to_order(request):
 
             return JsonResponse({
                 'status': 'success',
+                'text' : 'محصول مورد نظر به سبد خرید شما افزوده شد',
+                'confirm_button_text' : 'اوکی،متشکرم' ,
+                'icon': 'success',
             })
         else:
             return JsonResponse({
-                'status': 'NOT FOUND!',
+                'status': 'NOT_FOUND',
+                'text': 'محصول مورد نظر یافت نشد',
+                'confirm_button_text': 'اوکی،متشکرم',
+                'icon': 'error',
             })
     else:
         return JsonResponse({
             'status': 'NOT_AUTHORIZED',
+            'text': 'برای افزودن محصول به سبد خرید ابتدا باید وارد سایت شوید',
+            'confirm_button_text': 'ورود به سایت',
+            'icon': 'error',
         })
 
-    return JsonResponse({"0": "0"})
+    # return JsonResponse({"0": "0"})
