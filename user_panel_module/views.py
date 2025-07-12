@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView
 from account_module.models import User
+from order_module.models import Order
 from user_panel_module.forms import EditProfileModelForm, ChangePasswordForm
 from django.contrib.auth import logout
 
@@ -19,7 +20,6 @@ class UserPanelDashboardPage(TemplateView):
         current_user = User.objects.filter(id=self.request.user.id).first()
         context['current_user'] = current_user
         return context
-
 
 
 
@@ -50,7 +50,6 @@ class EditUserProfilePage(View):
             'current_user' : current_user,
         }
         return render(request, 'user_panel_module/edit_profile_page.html', context)
-
 
 
 
@@ -90,3 +89,16 @@ class ChangePasswordPage(View):
 
 def user_panel_menu_component(request):
     return render(request, "user_panel_module/components/user_panel_menu_component.html")
+
+
+def user_basket(request):
+    current_order, created = Order.objects.prefetch_related('order_details').get_or_create(is_paid=False, user_id=request.user.id)
+    total_amount = 0
+    for order_detail in current_order.order_details.all():
+        total_amount += order_detail.count * order_detail.product.price
+
+    context = {
+        'order' : current_order,
+        'sum' : total_amount,
+    }
+    return render(request, 'user_panel_module/user_basket.html', context)
