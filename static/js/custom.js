@@ -18,10 +18,12 @@ function sendArticleComment(articleId){
     });
 }
 
+
 function fillParentId(parentId){
     $('#parent_id').val(parentId);
     document.getElementById('comment_form').scrollIntoView({behavior:"smooth"});
 }
+
 
 function filterProducts() {
     const filterPrice = $('#sl2').val();
@@ -32,10 +34,12 @@ function filterProducts() {
     $('#filter_form').submit();
 }
 
+
 function fillPage(page){
     $('#page').val(page);
     $('#filter_form').submit();
 }
+
 
 function ShowLargeImage(imageSrc){
     $('#main_image').attr('src', imageSrc);
@@ -62,6 +66,16 @@ function addProductToOrder(productId){
 
     });
 }
+
+
+function removeOrderDetail(detailId){
+    $.get('/user/remove-order-detail?detail_id=' + detailId).then(res =>{
+        if (res.status === 'success'){
+            $('#order-detail-content').html(res.body);
+        }
+    });
+}
+
 
 
 
