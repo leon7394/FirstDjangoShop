@@ -15,6 +15,17 @@ class Order(models.Model):
         verbose_name = 'سبد خرید'
         verbose_name_plural = 'سبد های خرید کاربران'
 
+    def calculate_total_price(self):
+        total_amount = 0
+        if self.is_paid:
+            for order_detail in self.order_details.all():
+                total_amount += order_detail.final_price * order_detail.count
+        else:
+            for order_detail in self.order_details.all():
+                total_amount += order_detail.product.price * order_detail.count
+
+        return total_amount
+
 
 class OrderDetail(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_details', verbose_name='سبد خرید')
