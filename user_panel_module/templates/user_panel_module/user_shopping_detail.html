@@ -1,0 +1,70 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+{% load jalali_tags %}
+{% load poll_extras %}
+
+{% block title %}جزئیات فاکتور{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-4">
+                {% if request.user.avatar.url %}
+                    <img src="{{ request.user.avatar.url }}" alt="Avatar" class="img-fluid rounded-circle"
+                         style="margin-bottom: 20px; width: 190px; height: 190px; border-radius: 50%; object-fit: cover; object-position: center;">
+                {% else %}
+                    <img src="/static/images/home/product.jpg" alt="Avatar" class="img-fluid rounded-circle"
+                         style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; object-position: center;">
+                {% endif %}
+
+                {% render_partial 'user_panel_module.views.user_panel_menu_component' %}
+
+            </div>
+
+            <div class="col-md-8">
+
+                {% if order %}
+                    <table class="table table-responsive table-hover table-striped">
+                        <tr>
+                            <th class="text-right">شناسه</th>
+                            <th class="text-right">محصول</th>
+                            <th class="text-right">تعداد</th>
+                            <th class="text-right">قیمت واحد</th>
+                        </tr>
+                        {% for detail in order.order_details.all %}
+                            <tr>
+                                <td class="text-right">{{ detail.id }}</td>
+                                <td class="text-right">{{ detail.product.title }}</td>
+                                <td class="text-right">{{ detail.count }}</td>
+                                <td class="text-right">{{ detail.final_price|three_digits_currency }}</td>
+
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                    <hr>
+
+                    <div>
+                        <p class="text-left" style="background-color: #ffeee6">
+                            جمع کل فاکتور : {{ order.calculate_total_price|three_digits_currency }}
+                        </p>
+                    </div>
+
+                {% else %}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-warning">
+                                    <p> هیچ سابقه خریدی موجود نمیباشد</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

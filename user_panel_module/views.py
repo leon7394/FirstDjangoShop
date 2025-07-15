@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from account_module.models import User
 from order_module.models import Order, OrderDetail
 from user_panel_module.forms import EditProfileModelForm, ChangePasswordForm
@@ -82,10 +82,35 @@ class ChangePasswordPage(View):
 
 
 
+@method_decorator(login_required, name='dispatch')
+class MyShopping(ListView):
+    model = Order
+    template_name = 'user_panel_module/user_shopping.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(user_id=self.request.user.id, is_paid=True)
+        return queryset
+
+
+
+
+@login_required
+def my_shopping_detail(request, order_id):
+    order = Order.objects.prefetch_related('order_details').filter(id=order_id, user_id=request.user.id).first()
+    if order is None:
+        raise Http404('سبد خرید مد نظر یافت نشد')
+    return render(request, 'user_panel_module/user_shopping_detail.html', {'order':order})
+
+
+
 
 @login_required
 def user_panel_menu_component(request):
-    return render(request, "user_panel_module/components/user_panel_menu_component.html")
+    orders = Order.objects.filter(user_id=request.user.id, is_paid=True)
+    return render(request, "user_panel_module/components/user_panel_menu_component.html", {'orders':orders})
+
 
 
 
@@ -110,7 +135,7 @@ def remove_order_detail(request):
     if detail_id is None:
         return JsonResponse({'status':'not_found_detail_id'})
 
-    deleted_count, deleted_dict = OrderDetail.objects.filter(id=detail_id, is_paid=False, order__user_id=request.user.id).delete()
+    deleted_count, deleted_dict = OrderDetail.objects.filter(id=detail_id, order__is_paid=False, order__user_id=request.user.id).delete()
     if deleted_count == 0 :
         return JsonResponse({
             'status':'detail_not_found'
