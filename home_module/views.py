@@ -32,10 +32,8 @@ class HomeView(TemplateView):
             )
         context['categories_products'] = categories_products
 
-        most_bought_products = Product.objects.filter(orderdetail__order__is_paid=True).annotate(order_count=Sum('orderdetail__count')).order_by('order_count')[:12]
-
-        for product in most_bought_products:
-            print(product.order_count)
+        most_bought_products = Product.objects.filter(orderdetail__order__is_paid=True).annotate(order_count=Sum('orderdetail__count')).order_by('-order_count')[:12]
+        context['most_bought_products'] = group_list(most_bought_products)
 
         return context
 
