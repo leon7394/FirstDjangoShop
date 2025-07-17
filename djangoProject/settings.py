@@ -47,10 +47,12 @@ INSTALLED_APPS = [
     'user_panel_module',
     'polls',
     'order_module',
+    'admin_panel',
     #external apps
     'jalali_date',
     'sorl.thumbnail',
     'django_render_partial',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

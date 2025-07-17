@@ -59,6 +59,7 @@
 
                                 {% if user.is_authenticated and user.is_superuser %}
                                     <li><a href= "/admin/" ><i class="fa fa-user"></i>  {{ link }}</a></li>
+                                    <li><a href= "{% url 'admin_dashboard' %}" ><i class="fa fa-user"></i> پنل ادمین سفارشی</a></li>
                                 {% endif %}
 
 
