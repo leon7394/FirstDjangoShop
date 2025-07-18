@@ -8,6 +8,7 @@ from utils.email_service import send_email
 from .models import User
 from account_module.forms import RegisterForm, LoginForm, ForgotPasswordForm, ResetPasswordForm
 
+#*****************************************************************************************************************************
 
 class RegisterView(View):
     def get(self, request):
@@ -39,6 +40,7 @@ class RegisterView(View):
         else:
             return render(request, 'account_module/register.html', {'register_form': register_form})
 
+#*****************************************************************************************************************************
 
 class LoginView(View):
 
@@ -57,7 +59,8 @@ class LoginView(View):
                     is_password_correct = user.check_password(user_pass)
                     if is_password_correct:
                         login(request, user)
-                        return redirect(reverse('user_panel_dashboard'))
+                        next_url = request.POST.get('next') or reverse('user_panel_dashboard')
+                        return redirect(next_url)
                     else:
                         login_form.add_error('password', 'آدرس ایمیل یا رمز عبور وارد شده اشتباه است')
                 else:
@@ -68,7 +71,7 @@ class LoginView(View):
 
         return render(request, 'account_module/login.html', {'login_form': login_form})
 
-
+#*****************************************************************************************************************************
 
 class ActivateAccountView(View):
     def get(self, request, email_active_code):
@@ -84,7 +87,7 @@ class ActivateAccountView(View):
         else:
             raise Http404("کاربری با این کد فعال‌سازی پیدا نشد")
 
-
+#*****************************************************************************************************************************
 
 class ForgetPasswordView(View):
     def get(self, request):
@@ -104,7 +107,7 @@ class ForgetPasswordView(View):
 
         return render(request, 'account_module/forget_password.html', {'forget_pass_form' : forget_pass_form})
 
-
+#*****************************************************************************************************************************
 
 class ResetPasswordView(View):
     def get(self, request, active_code):
@@ -139,8 +142,11 @@ class ResetPasswordView(View):
                 'user': user
             })
 
+#*****************************************************************************************************************************
 
 class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect(reverse('login_page'))
+
+#*****************************************************************************************************************************
