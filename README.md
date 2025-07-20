@@ -31,9 +31,27 @@ This project is ideal for learning, extending, and experimenting with online sho
 
 ---
 
-## 🚀 Getting Started
+FirstDjangoShop/
+├── accounts/             # User authentication app
+├── products/             # Product management
+├── orders/               # Order and cart system
+├── templates/            # HTML templates
+├── static/               # Static files (CSS/JS)
+├── media/                # Uploaded files
+├── manage.py
+└── requirements.txt
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/leon7394/FirstDjangoShop.git
-cd FirstDjangoShop
+
+| Name          | GitHub Profile                           |
+| ------------- | ---------------------------------------- |
+| Mostafa Ameri | [@leon7394](https://github.com/leon7394) |
+
+
+📄 License
+This project is licensed under the MIT License – see the LICENSE file for details.
+
+
+
+
+
+
