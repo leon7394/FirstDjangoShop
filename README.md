@@ -42,13 +42,34 @@ FirstDjangoShop/
 └── requirements.txt
 
 
-| Name          | GitHub Profile                           |
-| ------------- | ---------------------------------------- |
+## 👤 Author
+
+| Name          | GitHub Profile         |
+|---------------|-------------------------|
 | Mostafa Ameri | [@leon7394](https://github.com/leon7394) |
 
+---
 
-📄 License
-This project is licensed under the MIT License – see the LICENSE file for details.
+## 📄 License
+
+This project is licensed under the **MIT License**.  
+See the [LICENSE](./LICENSE) file for more details.
+
+---
+
+## 💡 Future Plans
+
+- Integrate payment gateways (e.g., Stripe or Zarinpal)
+- Add product reviews and ratings
+- User dashboard with order history
+- REST API for frontend/mobile integration
+- Discount codes and promotions
+
+---
+
+## ⭐ Support
+
+If you find this project helpful, please give it a ⭐ star – it motivates me to keep improving!
 
 
 
