@@ -1,3 +1,5 @@
+from itertools import count
+
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -63,7 +65,16 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:  # فقط اگر مقدار slug خالی بود، مقدار جدید تولید شود
-            self.slug = slugify(self.title, allow_unicode=True)
+            base_slug = slugify(self.title, allow_unicode=True)
+            slug = base_slug
+            counter = 1
+
+            while Product.objects.filter(slug=slug).exists():
+                slug = f'{base_slug}-{counter}'
+                counter += 1
+
+            self.slug = slug
+
         super().save(*args, **kwargs)
 
     def __str__(self):

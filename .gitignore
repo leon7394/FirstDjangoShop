@@ -1,8 +1,27 @@
+/site_module/migrations/
+
+db_backup_2025-07-10_17:30:11.sqlite3
+
+# 🔧 IDE & Environment
 .idea/
 .venv/
+
+# 🗃 Database
 db.sqlite3
+db_backup_*.sqlite3
+
+# 🐍 Python cache
+__pycache__/
+*.pyc
+
+# 📦 Django Migrations (all apps)
+*/migrations/
+!*/migrations/__init__.py
+
+# 📁 Uploaded Files
 uploads/images/*
 !uploads/images/.gitkeep
-*.pyc
-__pycache__/
-/site_module/migrations/
+
+# 🧊 Uploaded Cache Images
+uploads/cache/
+
