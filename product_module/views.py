@@ -1,11 +1,16 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
-from django.shortcuts import redirect, render
-from django.views.generic import ListView, DetailView, View
+from django.shortcuts import redirect, render, get_object_or_404
+from django.template.context_processors import request
+from django.views.generic import ListView, DetailView, View, CreateView
 from site_module.models import SiteBanner
 from utils.convertors import group_list
 from utils.http_service import get_client_ip
-from .models import Product, ProductCategory, ProductBrand, ProductVisit, ProductGallery
+from .forms import ProductCommentModelForm
+from .models import Product, ProductCategory, ProductBrand, ProductVisit, ProductGallery, ProductComment
 
+
+#***********************************************************************************************************************
 
 class ProductListView(ListView):
     template_name = 'product_module/product_list.html'
@@ -51,7 +56,7 @@ class ProductListView(ListView):
 
         return context
 
-
+#***********************************************************************************************************************
 
 class ProductDetailView(DetailView):
     template_name = 'product_module/product_detail.html'
@@ -68,6 +73,11 @@ class ProductDetailView(DetailView):
         galleries = list(ProductGallery.objects.filter(product_id=loaded_product.id).all())
         galleries.insert(0, loaded_product)
         context['product_galleries_group'] = group_list(galleries,3)
+
+        context['comment_form'] = ProductCommentModelForm()
+        context['comments_count'] = ProductComment.objects.filter(product=loaded_product).count()
+
+        context['comments'] = ProductComment.objects.filter(product_id=loaded_product.id).order_by('-create_date')
 
         qs = Product.objects.filter(brand_id = loaded_product.brand_id)
         if loaded_product.id :
@@ -87,7 +97,7 @@ class ProductDetailView(DetailView):
 
         return context
 
-
+#***********************************************************************************************************************
 
 class AddProductFavorite(View):
     def post(self, request):
@@ -96,7 +106,7 @@ class AddProductFavorite(View):
         product = Product.objects.get(pk=product_id)
         return redirect(product.get_absolute_url())
 
-
+#***********************************************************************************************************************
 
 def product_categories_component(request):
     product_categories = ProductCategory.objects.filter(is_active=True, is_delete=False)
@@ -105,7 +115,7 @@ def product_categories_component(request):
     }
     return render(request, 'product_module/components/product_categories_component.html', context)
 
-
+#***********************************************************************************************************************
 
 def product_brand_component(request):
     product_brands = ProductBrand.objects.filter(is_active=True).annotate(products_count=Count('product'))
@@ -113,3 +123,17 @@ def product_brand_component(request):
         'brands' : product_brands,
     }
     return render(request, 'product_module/components/product_brand_component.html', context)
+
+#***********************************************************************************************************************
+
+class ProductCommentCreateView(LoginRequiredMixin, CreateView):
+    model = ProductComment
+    form_class = ProductCommentModelForm
+
+    def form_valid(self, form):
+        product_id = self.request.POST.get('product_id')
+        product = get_object_or_404(Product, id=product_id)
+        form.instance.product = product
+        form.instance.user = self.request.user
+        form.save()
+        return redirect(product.get_absolute_url())

@@ -1,10 +1,10 @@
-from itertools import count
-
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from jalali_date import date2jalali
 from account_module.models import User
 
+#***********************************************************************************************************************
 
 class ProductCategory(models.Model):
     title = models.CharField(max_length=300, db_index=True, verbose_name='عنوان')
@@ -19,7 +19,7 @@ class ProductCategory(models.Model):
         verbose_name = 'دسته بندی'
         verbose_name_plural = 'دسته بندی ها'
 
-
+#***********************************************************************************************************************
 
 class ProductBrand(models.Model):
     title = models.CharField(max_length=300, verbose_name='نام برند', db_index=True)
@@ -33,7 +33,7 @@ class ProductBrand(models.Model):
     def __str__(self):
         return self.title
 
-
+#***********************************************************************************************************************
 
 class Product(models.Model):
 
@@ -84,7 +84,7 @@ class Product(models.Model):
         verbose_name = 'محصول'
         verbose_name_plural = 'محصولات'
 
-
+#***********************************************************************************************************************
 
 class ProductTag(models.Model):
     caption = models.CharField(max_length=300, verbose_name='عنوان', db_index=True)
@@ -97,7 +97,7 @@ class ProductTag(models.Model):
         verbose_name = 'تگ محصول'
         verbose_name_plural = 'تگ های محصولات'
 
-
+#***********************************************************************************************************************
 
 class ProductVisit(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='product_visits',
@@ -112,7 +112,7 @@ class ProductVisit(models.Model):
         verbose_name = 'بازدید محصول'
         verbose_name_plural = 'بازدید های محصول'
 
-
+#***********************************************************************************************************************
 
 class ProductGallery(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='محصول')
@@ -124,3 +124,27 @@ class ProductGallery(models.Model):
     class Meta:
         verbose_name = 'تصویر گالری'
         verbose_name_plural = 'گالری تصاویر'
+
+#***********************************************************************************************************************
+
+class ProductComment(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
+    create_date = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت')
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, verbose_name='کاربر')
+    text = models.TextField(verbose_name='متن نظر')
+
+    class Meta:
+        verbose_name = 'کامنت محصول'
+        verbose_name_plural = 'کامنت های محصول'
+
+    def __str__(self):
+        return self.text
+
+
+    def get_jalali_date(self):
+        return date2jalali(self.create_date)
+
+    def get_time(self):
+        return self.create_date.strftime('%H:%M')
+
+#***********************************************************************************************************************

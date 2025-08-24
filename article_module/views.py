@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from article_module.models import Article, ArticleCategory, ArticleComment
 
+#***********************************************************************************************************************
+
 
 class ArticlesListView(ListView):
     model = Article
@@ -17,6 +19,11 @@ class ArticlesListView(ListView):
         if category_name:
             query = query.filter(selected_categories__url_title__iexact=category_name)
         return query
+
+
+
+#***********************************************************************************************************************
+
 
 class ArticleDetailView(DetailView):
     model = Article
@@ -34,9 +41,18 @@ class ArticleDetailView(DetailView):
         context['comments_count'] = ArticleComment.objects.filter(article_id=article.id).count()
         return context
 
+
+
+#***********************************************************************************************************************
+
+
 def article_categories_component(request):
     article_main_categories = ArticleCategory.objects.prefetch_related('articlecategory_set').filter(is_active=True, parent_id=None)
     return render(request, 'article_module/components/article_categories_component.html', {'main_categories': article_main_categories})
+
+
+
+#***********************************************************************************************************************
 
 
 def add_article_comment(request):
@@ -53,3 +69,6 @@ def add_article_comment(request):
         return render(request, 'article_module/includes/article_comments_partial.html', context)
 
     return HttpResponse('hello')
+
+
+#***********************************************************************************************************************

@@ -1,3 +1,7 @@
+
+
+// ************************************************************************************************************************
+
 function sendArticleComment(articleId){
     var comment = $('#commentText').val();
     var parentId = $('#parent_id').val();
@@ -18,12 +22,14 @@ function sendArticleComment(articleId){
     });
 }
 
+// ************************************************************************************************************************
 
 function fillParentId(parentId){
     $('#parent_id').val(parentId);
     document.getElementById('comment_form').scrollIntoView({behavior:"smooth"});
 }
 
+// ************************************************************************************************************************
 
 function filterProducts() {
     const filterPrice = $('#sl2').val();
@@ -34,18 +40,21 @@ function filterProducts() {
     $('#filter_form').submit();
 }
 
+// ************************************************************************************************************************
 
 function fillPage(page){
     $('#page').val(page);
     $('#filter_form').submit();
 }
 
+// ************************************************************************************************************************
 
 function ShowLargeImage(imageSrc){
     $('#main_image').attr('src', imageSrc);
     $('#show_large_image_modal').attr('href' , imageSrc);
 }
 
+// ************************************************************************************************************************
 
 function addProductToOrder(productId){
     const productCount = $('#product_count').val();
@@ -67,6 +76,7 @@ function addProductToOrder(productId){
     });
 }
 
+// ************************************************************************************************************************
 
 function removeOrderDetail(detailId){
     $.get('/user/remove-order-detail?detail_id=' + detailId).then(res =>{
@@ -76,6 +86,7 @@ function removeOrderDetail(detailId){
     });
 }
 
+// ************************************************************************************************************************
 
 function ChangeOrderDetailCount(detailId, state){
     $.get('/user/change-order-detail?detail_id=' + detailId + '&state=' + state).then(res =>{
@@ -85,6 +96,6 @@ function ChangeOrderDetailCount(detailId, state){
     });
 }
 
-
+// ************************************************************************************************************************
 
 

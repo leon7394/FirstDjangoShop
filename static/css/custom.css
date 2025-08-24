@@ -28,3 +28,9 @@ ul{
     cursor : pointer;
 }
 
+
+#reviews .col-sm-12 {
+    margin-bottom: 20px; /* فاصله بین هر کامنت */
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd; /* (اختیاری) خط جداکننده بین کامنت‌ها */
+}

@@ -2,6 +2,7 @@ from django.db import models
 from account_module.models import User
 from jalali_date import datetime2jalali, date2jalali
 
+#***********************************************************************************************************************
 
 class ArticleCategory(models.Model):
     parent = models.ForeignKey('ArticleCategory', on_delete=models.CASCADE, null=True, blank=True, verbose_name='دسته بندی والد')
@@ -16,6 +17,7 @@ class ArticleCategory(models.Model):
     def __str__(self):
         return self.title
 
+#***********************************************************************************************************************
 
 class Article(models.Model):
     title = models.CharField(max_length=300, verbose_name='عنوان مقاله')
@@ -41,6 +43,7 @@ class Article(models.Model):
             verbose_name = 'مقاله'
             verbose_name_plural = 'مقالات'
 
+#***********************************************************************************************************************
 
 class ArticleComment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name='مقاله')
@@ -55,3 +58,5 @@ class ArticleComment(models.Model):
 
     def __str__(self):
         return self.text
+
+#***********************************************************************************************************************
